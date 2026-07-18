@@ -14,6 +14,7 @@ body {
   margin: 0;
   font-family: var(--font-family);
   font-size: var(--font-size-base);
+  line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-page-bg);
   -webkit-font-smoothing: antialiased;
@@ -43,6 +44,28 @@ button {
 
 table {
   border-collapse: collapse;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Native select arrows differ per platform and clash with the flat control
+   styling, so they are replaced with one consistent chevron. */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475467' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m6 9 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.625rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+  cursor: pointer;
+}
+
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* A single, consistent focus treatment for every interactive control. */

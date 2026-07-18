@@ -1,6 +1,7 @@
 import { APP_SETTINGS } from '../../config/settings'
 import { formatLongDate, formatTime } from '../../utils/timeZoneUtils'
 import { ChevronDownIcon, ClockIcon } from '../icons/Icons'
+import logoUrl from '../../assets/logo.png'
 import styles from './AppHeader.module.css'
 
 type AppHeaderProps = {
@@ -16,7 +17,17 @@ export function AppHeader({ now }: AppHeaderProps) {
     <header className={styles.header}>
       <div className={styles.inner}>
         <div className={styles.brand}>
-          <h1 className={styles.brandName}>{APP_SETTINGS.applicationName}</h1>
+          {/* The heading is kept for document structure; the alt text carries
+              the brand name so the accessible name is unchanged by the swap. */}
+          <h1 className={styles.brandName}>
+            <img
+              src={logoUrl}
+              alt={APP_SETTINGS.applicationName}
+              className={styles.brandLogo}
+              width={1873}
+              height={452}
+            />
+          </h1>
           <span className={styles.divider} aria-hidden="true" />
           <div className={styles.titleBlock}>
             <p className={styles.title}>{APP_SETTINGS.pageTitle}</p>

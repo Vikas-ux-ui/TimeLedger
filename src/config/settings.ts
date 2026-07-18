@@ -15,7 +15,7 @@ export const APP_SETTINGS = {
   defaultWorkEndLocal: '23:00',
   primaryHeaderColor: '#7296C4',
   tableHeaderColor: '#E2E2E5',
-  fontFamily: '"Times New Roman", Times, serif',
+  fontFamily: '"Tajawal", sans-serif',
 } as const
 
 /** A shift opening within this many hours reads as `Starts Soon`. */

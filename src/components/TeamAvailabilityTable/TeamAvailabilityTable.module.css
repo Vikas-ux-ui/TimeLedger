@@ -15,6 +15,7 @@
   gap: var(--space-4);
   flex-wrap: wrap;
   padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .summaryText {
@@ -24,7 +25,7 @@
 
 .summaryCount {
   color: var(--color-text);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .sortGroup {
@@ -40,16 +41,26 @@
 }
 
 .sortSelect {
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
+  height: var(--control-height);
+  padding: 0 var(--control-padding-x);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
   font-size: var(--font-size-base);
   min-width: 15rem;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .sortSelect:hover {
-  border-color: var(--color-border-strong);
+  border-color: var(--color-text-subtle);
+}
+
+.sortSelect:focus-visible {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: var(--focus-ring);
 }
 
 /* --- Table ---------------------------------------------------------------- */
@@ -70,7 +81,8 @@
   background-color: var(--color-table-header);
   color: var(--color-table-header-text);
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.01em;
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--color-border-strong);
   vertical-align: middle;
@@ -79,7 +91,7 @@
 
 .headerSubLabel {
   display: block;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   font-size: var(--font-size-xs);
   color: #3d3d3d;
 }
@@ -91,20 +103,23 @@
   gap: var(--space-1);
   background: none;
   border: none;
-  padding: 0;
+  padding: var(--space-1) var(--space-2);
+  margin: calc(var(--space-1) * -1) calc(var(--space-2) * -1);
+  border-radius: var(--radius-sm);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: inherit;
   text-align: left;
+  transition: background-color var(--transition-fast);
 }
 
 .sortButton:hover {
-  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0.06);
 }
 
 .sortIndicator {
   font-size: 0.7em;
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .headerInfo {
@@ -115,7 +130,8 @@
 
 .table tbody td {
   padding: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
+  /* Kept faint so it separates rows without fighting the alternating tint. */
+  border-bottom: 1px solid rgba(16, 24, 40, 0.06);
   vertical-align: middle;
   font-size: var(--font-size-base);
 }
@@ -124,18 +140,27 @@
   border-bottom: none;
 }
 
+/* Alternating rows: odd white, even a light blue tint. */
+.table tbody tr:nth-child(odd) {
+  background-color: var(--color-row-odd);
+}
+
 .table tbody tr:nth-child(even) {
-  background-color: var(--color-surface-alt);
+  background-color: var(--color-row-even);
+}
+
+.table tbody tr {
+  transition: background-color var(--transition-fast);
 }
 
 .table tbody tr:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-row-hover);
 }
 
 .table tbody tr:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: -2px;
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-row-hover);
 }
 
 /* --- Member cell ---------------------------------------------------------- */
@@ -154,13 +179,16 @@
   display: grid;
   place-items: center;
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
   flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(16, 24, 40, 0.06);
 }
 
 .memberName {
-  font-weight: 700;
-  line-height: 1.3;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.35;
+  color: var(--color-text);
 }
 
 .memberRole {
@@ -183,12 +211,14 @@
 
 .sharedTag {
   display: inline-block;
-  padding: 0 var(--space-2);
+  padding: 0.0625rem var(--space-2);
   border-radius: var(--radius-pill);
   border: 1px solid var(--color-soon-border);
   background-color: var(--color-soon-bg);
   color: var(--color-soon);
   font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
   white-space: nowrap;
 }
 
@@ -228,6 +258,9 @@
 .rangeLine {
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
+  /* Keeps the range and its "KSA" suffix on one line, so the suffix does not
+     drop to a second line on only some rows. */
+  white-space: nowrap;
 }
 
 .ksaSuffix {
@@ -243,8 +276,9 @@
 /* --- Hours left ----------------------------------------------------------- */
 
 .hoursLeftValue {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-md);
   line-height: 1.3;
   white-space: nowrap;
 }
@@ -263,9 +297,9 @@
 
 .progressTrack {
   width: 5.5rem;
-  height: 4px;
+  height: 5px;
   border-radius: var(--radius-pill);
-  background-color: var(--color-border);
+  background-color: rgba(16, 24, 40, 0.1);
   margin-top: var(--space-1);
   overflow: hidden;
 }
@@ -304,12 +338,15 @@
   border: none;
   padding: var(--space-2);
   border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   line-height: 0;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .actionButton:hover {
-  background-color: var(--color-border);
+  background-color: rgba(16, 24, 40, 0.08);
   color: var(--color-text);
 }
 
@@ -340,12 +377,14 @@
 /* --- Tablet: keep the member column pinned while scrolling ---------------- */
 
 @media (min-width: 769px) and (max-width: 1200px) {
+  /* The pinned column needs its own opaque background, matching the row tint
+     it sits in, or scrolled content would show through it. */
   .table thead th:first-child,
   .table tbody td:first-child {
     position: sticky;
     left: 0;
     z-index: 2;
-    background-color: var(--color-surface);
+    box-shadow: 1px 0 0 var(--color-border);
   }
 
   .table thead th:first-child {
@@ -353,12 +392,16 @@
     z-index: 3;
   }
 
+  .table tbody tr:nth-child(odd) td:first-child {
+    background-color: var(--color-row-odd);
+  }
+
   .table tbody tr:nth-child(even) td:first-child {
-    background-color: var(--color-surface-alt);
+    background-color: var(--color-row-even);
   }
 
   .table tbody tr:hover td:first-child {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-row-hover);
   }
 }
 
@@ -398,15 +441,13 @@
   .table tbody tr {
     display: block;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     margin: var(--space-4);
     padding: var(--space-2) 0;
-    background-color: var(--color-surface);
+    box-shadow: var(--shadow-xs);
   }
 
-  .table tbody tr:nth-child(even) {
-    background-color: var(--color-surface);
-  }
+  /* The cards keep the same alternating tint as the desktop rows. */
 
   /* Grid, not flex: a cell with several lines (a range plus its elapsed time)
      must stack those lines in the value column rather than spreading them
@@ -459,6 +500,7 @@
 
   .primaryLine,
   .secondaryLine,
+  .rangeLine,
   .hoursLeftValue,
   .deploymentHint {
     white-space: normal;

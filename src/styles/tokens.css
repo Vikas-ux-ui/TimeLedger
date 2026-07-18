@@ -9,71 +9,84 @@
   --color-header: #7296c4;
   --color-header-dark: #5f83b3;
   --color-header-text: #ffffff;
-  --color-header-muted: rgba(255, 255, 255, 0.82);
-  --color-header-divider: rgba(255, 255, 255, 0.45);
+  --color-header-muted: rgba(255, 255, 255, 0.85);
+  --color-header-divider: rgba(255, 255, 255, 0.4);
 
   --color-table-header: #e2e2e5;
   --color-table-header-text: #000000;
 
+  /* --- Table rows ------------------------------------------------------- */
+  --color-row-odd: #ffffff;
+  --color-row-even: #e0eff5;
+  /* Deeper than the even-row tint so hover reads on both row colours. */
+  --color-row-hover: #cbe3ee;
+
   /* --- Surfaces --------------------------------------------------------- */
-  --color-page-bg: #f4f5f7;
+  --color-page-bg: #f5f7fa;
   --color-surface: #ffffff;
-  --color-surface-alt: #fafbfc;
-  --color-surface-hover: #eef3f9;
+  --color-surface-alt: #f9fafb;
+  --color-surface-hover: #f2f4f7;
+  --color-surface-sunken: #eef1f5;
 
   /* --- Text ------------------------------------------------------------- */
-  --color-text: #1a1a1a;
-  --color-text-muted: #5f6672;
-  --color-text-subtle: #808792;
+  --color-text: #101828;
+  --color-text-muted: #475467;
+  --color-text-subtle: #667085;
 
   /* --- Lines ------------------------------------------------------------ */
-  --color-border: #dfe1e6;
-  --color-border-strong: #c9ccd3;
+  --color-border: #e4e7ec;
+  --color-border-strong: #d0d5dd;
 
   /* --- Status ----------------------------------------------------------- */
   /* Text tones are darkened for contrast against their own soft backgrounds. */
-  --color-online: #1a7f45;
-  --color-online-bg: #e6f4ec;
-  --color-online-border: #b7e0c8;
+  --color-online: #17734a;
+  --color-online-bg: #e7f6ee;
+  --color-online-border: #a9dcc2;
 
-  --color-limited: #9a5b00;
-  --color-limited-bg: #fdf3e2;
-  --color-limited-border: #f0d5a8;
+  --color-limited: #93500a;
+  --color-limited-bg: #fdf2e3;
+  --color-limited-border: #f0d3a3;
 
-  --color-soon: #1f5fa8;
+  --color-soon: #1c5b9f;
   --color-soon-bg: #e8f1fb;
-  --color-soon-border: #bcd6f2;
+  --color-soon-border: #b8d4f0;
 
-  --color-offline: #5a6069;
-  --color-offline-bg: #eef0f2;
-  --color-offline-border: #d5d9de;
+  --color-offline: #4b5565;
+  --color-offline-bg: #eef1f4;
+  --color-offline-border: #d4dae1;
 
-  --color-danger: #b3261e;
+  --color-danger: #a8231c;
   --color-danger-bg: #fdecea;
-  --color-danger-border: #f3c4bf;
+  --color-danger-border: #f2c1bb;
 
   /* --- Deployment / note cards ------------------------------------------ */
-  --color-info-bg: #e9f1fa;
-  --color-info-border: #c3d9ef;
-  --color-info-text: #2b5f9e;
+  --color-info-bg: #eaf2fa;
+  --color-info-border: #c2d9ef;
+  --color-info-text: #2a5e9d;
 
-  --color-note-bg: #fdf7e7;
-  --color-note-border: #ecd9a8;
+  --color-note-bg: #fdf7e8;
+  --color-note-border: #ebd7a4;
   --color-note-text: #7a5a12;
 
   /* --- Focus ------------------------------------------------------------ */
-  --color-focus: #1f5fa8;
-  --focus-ring: 0 0 0 3px rgba(31, 95, 168, 0.35);
+  --color-focus: #1c5b9f;
+  --focus-ring: 0 0 0 3px rgba(28, 91, 159, 0.28);
 
   /* --- Type ------------------------------------------------------------- */
-  --font-family: 'Times New Roman', Times, serif;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.8125rem;
-  --font-size-base: 0.9375rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.375rem;
-  --font-size-2xl: 2rem;
+  --font-family: 'Tajawal', sans-serif;
+  /* Sizes run slightly tighter than a serif scale: Tajawal sets wider, so the
+     dense table columns need the extra room. */
+  --font-size-xs: 0.6875rem;
+  --font-size-sm: 0.75rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 0.9375rem;
+  --font-size-lg: 1.0625rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.875rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 
   /* --- Space ------------------------------------------------------------ */
   --space-1: 0.25rem;
@@ -84,14 +97,23 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
 
+  /* --- Controls --------------------------------------------------------- */
+  /* One height for every input, select and button, so filter rows align. */
+  --control-height: 2.5rem;
+  --control-height-sm: 2rem;
+  --control-padding-x: 0.75rem;
+
   /* --- Shape ------------------------------------------------------------ */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-pill: 999px;
 
-  --shadow-card: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
-  --shadow-popover: 0 8px 24px rgba(16, 24, 40, 0.14);
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-popover: 0 12px 28px rgba(16, 24, 40, 0.14), 0 4px 8px rgba(16, 24, 40, 0.06);
+
+  --transition-fast: 120ms ease;
 
   --layout-max-width: 1440px;
 }
