@@ -84,7 +84,7 @@ describe('page shell', () => {
     await renderApp()
 
     expect(screen.getByText('Production Deployment Minimum Timeline')).toBeInTheDocument()
-    expect(screen.getByText('4.5 hours')).toBeInTheDocument()
+    expect(screen.getByText('5 hours')).toBeInTheDocument()
     expect(
       screen.getByText(/Minimum notice required before production deployment/i),
     ).toBeInTheDocument()

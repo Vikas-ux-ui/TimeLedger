@@ -9,7 +9,7 @@ export const APP_SETTINGS = {
   pageTitle: 'Global Team Availability',
   pageSubtitle: 'Find the right time to connect',
   ksaTimeZone: 'Asia/Riyadh',
-  productionDeploymentMinimumHours: 4.5,
+  productionDeploymentMinimumHours: 5,
   productionCommunicationCutoffKsa: '16:00',
   defaultWorkStartLocal: '09:00',
   defaultWorkEndLocal: '23:00',

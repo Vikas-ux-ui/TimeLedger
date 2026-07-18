@@ -49,8 +49,8 @@ Status is derived as follows:
 
 | Condition | Status |
 |---|---|
-| Working day, inside shift, ≥ 4.5 hours left | `Online` |
-| Working day, inside shift, 0 < hours left < 4.5 | `Limited Time` |
+| Working day, inside shift, ≥ 5 hours left | `Online` |
+| Working day, inside shift, 0 < hours left < 5 | `Limited Time` |
 | Working day, before shift, starts within 2 hours | `Starts Soon` |
 | Working day, before shift, more than 2 hours away | `Offline` |
 | At or after shift end | `Offline` |
@@ -61,6 +61,11 @@ Hours left never goes negative. Before a shift opens, hours left represents the 
 upcoming shift duration — which is why a member can show a large hours-left value and
 still not be deployment eligible: eligibility additionally requires that they are
 *currently* inside working hours.
+
+> The 5-hour minimum is a business setting, not a constant baked into the logic. It
+> lives in `src/config/settings.ts` (`productionDeploymentMinimumHours`) and is the
+> single value that drives the status thresholds, the eligibility rule, the row
+> tooltips, the filter shortcut, and the timeline card.
 
 ---
 
@@ -147,8 +152,8 @@ from. It already returns a Promise, so replacing the JSON import with a `fetch` 
 
 ## Production deployment rules
 
-- **Minimum timeline: 4.5 hours.** A member is deployment eligible when they are
-  currently within working hours *and* have at least 4.5 hours of scheduled time left.
+- **Minimum timeline: 5 hours.** A member is deployment eligible when they are
+  currently within working hours *and* have at least 5 hours of scheduled time left.
   Rows show `Deployment window OK` or `Insufficient deployment window` accordingly.
 - **Preferred communication cutoff: 4:00 PM KSA.** After this time a page-level advisory
   appears. It is guidance only — it never hides data or blocks any action.
@@ -199,7 +204,8 @@ src/
 ## Testing
 
 69 tests across 4 files, covering time-zone formatting, KSA conversion, hours-left and
-status rules at every boundary, deployment eligibility either side of 4.5 hours,
+status rules at every boundary, deployment eligibility either side of the
+configured minimum,
 schedule validation, search, combined filters, reset, pagination, and the 4:00 PM
 advisory. Component tests drive the real 36-record dataset through the assembled page
 with a frozen clock.

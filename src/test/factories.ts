@@ -1,6 +1,19 @@
 import type { TeamMember } from '../types/teamMember'
 import type { MemberAvailability } from '../types/availability'
 import { computeAvailability } from '../utils/availabilityUtils'
+import { APP_SETTINGS } from '../config/settings'
+
+const MS_PER_HOUR = 3_600_000
+
+/** The default India shift (09:00–23:00 IST) closes at 17:30 UTC. */
+const INDIA_SHIFT_END_UTC = new Date('2026-07-20T17:30:00Z').getTime()
+
+/**
+ * Boundary instants are derived from the configured deployment minimum rather
+ * than hardcoded, so changing that business rule does not require rewriting
+ * the fixtures — the tests keep exercising the real boundary either way.
+ */
+const deploymentMinimumMs = APP_SETTINGS.productionDeploymentMinimumHours * MS_PER_HOUR
 
 /**
  * Shared fixtures.
@@ -43,10 +56,12 @@ export const INSTANTS = {
   mondayJustBeforeShiftIst: new Date('2026-07-20T02:30:00Z'),
   /** 14:30 IST — mid-shift, 8.5 h remaining. */
   mondayMidShiftIst: new Date('2026-07-20T09:00:00Z'),
-  /** 18:30 IST — exactly 4.5 h remaining. */
-  mondayExactlyDeploymentWindowIst: new Date('2026-07-20T13:00:00Z'),
-  /** 18:31 IST — just under 4.5 h remaining. */
-  mondayJustUnderDeploymentWindowIst: new Date('2026-07-20T13:01:00Z'),
+  /** Exactly the configured deployment minimum remains in the India shift. */
+  mondayExactlyDeploymentWindowIst: new Date(INDIA_SHIFT_END_UTC - deploymentMinimumMs),
+  /** One minute past that boundary, so the window is just too short. */
+  mondayJustUnderDeploymentWindowIst: new Date(
+    INDIA_SHIFT_END_UTC - deploymentMinimumMs + 60_000,
+  ),
   /** 23:30 IST — after the shift closed. */
   mondayAfterShiftIst: new Date('2026-07-20T18:00:00Z'),
   /** Sunday 19 July 2026, 14:30 IST — a non-working day. */

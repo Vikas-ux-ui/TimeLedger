@@ -5,6 +5,7 @@ import { INSTANTS, makeMember } from '../test/factories'
 import { APP_SETTINGS } from '../config/settings'
 
 const indiaMember = makeMember()
+const DEPLOYMENT_MINIMUM = APP_SETTINGS.productionDeploymentMinimumHours
 
 describe('computeAvailability', () => {
   // Required test 3
@@ -79,26 +80,32 @@ describe('computeAvailability', () => {
     expect(result.deploymentEligible).toBe(false)
   })
 
+  // Pins the business rule itself. The boundary tests below derive from this
+  // value, so this is what fails if the configured minimum is changed.
+  it('requires 5 hours for a production deployment', () => {
+    expect(APP_SETTINGS.productionDeploymentMinimumHours).toBe(5)
+  })
+
   // Required test 8
-  it('is deployment eligible at exactly the 4.5 hour minimum', () => {
+  it('is deployment eligible at exactly the configured minimum', () => {
     const result = computeAvailability(
       indiaMember,
       INSTANTS.mondayExactlyDeploymentWindowIst,
     )
 
-    expect(result.hoursLeft).toBeCloseTo(4.5, 5)
+    expect(result.hoursLeft).toBeCloseTo(DEPLOYMENT_MINIMUM, 5)
     expect(result.deploymentEligible).toBe(true)
     expect(result.status).toBe('online')
   })
 
   // Required test 9
-  it('is not deployment eligible just below the 4.5 hour minimum', () => {
+  it('is not deployment eligible just below the configured minimum', () => {
     const result = computeAvailability(
       indiaMember,
       INSTANTS.mondayJustUnderDeploymentWindowIst,
     )
 
-    expect(result.hoursLeft).toBeLessThan(4.5)
+    expect(result.hoursLeft).toBeLessThan(DEPLOYMENT_MINIMUM)
     expect(result.deploymentEligible).toBe(false)
     expect(result.status).toBe('limited')
   })
@@ -168,10 +175,11 @@ describe('computeAvailability', () => {
   })
 
   it('honours an overridden deployment minimum', () => {
+    // Just under the configured minimum, but comfortably over a lower one.
     const result = computeAvailability(
       indiaMember,
       INSTANTS.mondayJustUnderDeploymentWindowIst,
-      { minimumDeploymentHours: 4 },
+      { minimumDeploymentHours: DEPLOYMENT_MINIMUM - 1 },
     )
     expect(result.deploymentEligible).toBe(true)
   })

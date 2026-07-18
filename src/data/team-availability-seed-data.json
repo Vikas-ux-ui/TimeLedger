@@ -2,7 +2,7 @@
   "generatedAtUtc": "2026-07-18T07:33:10.750Z",
   "settings": {
     "ksaTimeZone": "Asia/Riyadh",
-    "productionDeploymentMinimumHours": 4.5,
+    "productionDeploymentMinimumHours": 5,
     "productionCommunicationCutoffKsa": "16:00",
     "defaultWorkStartLocal": "09:00",
     "defaultWorkEndLocal": "23:00"

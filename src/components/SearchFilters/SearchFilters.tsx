@@ -5,6 +5,7 @@ import {
   countAdvancedFilters,
   type TeamFilterState,
 } from '../../utils/filterUtils'
+import { APP_SETTINGS } from '../../config/settings'
 import { FilterIcon, ResetIcon, SearchIcon } from '../icons/Icons'
 import styles from './SearchFilters.module.css'
 
@@ -28,12 +29,16 @@ const STATUS_ORDER: AvailabilityStatus[] = [
   'schedule-unavailable',
 ]
 
+const DEPLOYMENT_MINIMUM = APP_SETTINGS.productionDeploymentMinimumHours
+
 const MINIMUM_HOURS_OPTIONS = [
   { value: '', label: 'Any' },
   { value: '2', label: '2+ hours' },
-  { value: '4.5', label: '4.5+ hours' },
-  { value: '6', label: '6+ hours' },
+  // Mirrors the production deployment minimum, so the shortcut cannot drift
+  // away from the threshold the rest of the page enforces.
+  { value: String(DEPLOYMENT_MINIMUM), label: `${DEPLOYMENT_MINIMUM}+ hours` },
   { value: '8', label: '8+ hours' },
+  { value: '10', label: '10+ hours' },
 ]
 
 /**

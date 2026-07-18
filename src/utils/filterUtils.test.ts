@@ -9,6 +9,7 @@ import {
   type TeamFilterState,
 } from './filterUtils'
 import { INSTANTS, makeEntry, makeMember } from '../test/factories'
+import { APP_SETTINGS } from '../config/settings'
 
 const now = INSTANTS.mondayMidShiftIst
 
@@ -137,7 +138,9 @@ describe('applyFilters', () => {
     // Omaha clears the hours bar on paper but is not reachable yet, so it must
     // not count as deployment eligible.
     const omaha = entries.find((entry) => entry.member.id === 'g-lexi')!
-    expect(omaha.availability.hoursLeft).toBeGreaterThan(4.5)
+    expect(omaha.availability.hoursLeft).toBeGreaterThan(
+      APP_SETTINGS.productionDeploymentMinimumHours,
+    )
     expect(omaha.availability.isWithinWorkingHours).toBe(false)
     expect(omaha.availability.deploymentEligible).toBe(false)
   })
