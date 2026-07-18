@@ -1,7 +1,10 @@
 .header {
-  background-color: var(--color-header);
+  background-color: var(--color-header-bg);
   color: var(--color-header-text);
   padding: var(--space-4) var(--space-6);
+  /* The page sits on a near-white grey, so the navbar needs an explicit edge
+     to separate the two. */
+  border-bottom: 1px solid var(--color-border);
 }
 
 .inner {
@@ -21,16 +24,15 @@
   min-width: 0;
 }
 
-/* The supplied logo is dark grey on transparent, which would read poorly
-   straight onto the blue header, so it sits on a white plate. */
+/* The logo is dark grey and green on transparent, so it reads directly on the
+   white navbar. The white plate it previously needed is gone; the vertical
+   padding stays so the navbar keeps its original height, while the horizontal
+   padding is dropped so the logo lines up with the cards below it. */
 .brandName {
   display: flex;
   align-items: center;
   margin: 0;
-  padding: var(--space-2) var(--space-3);
-  background-color: #ffffff;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-xs);
+  padding: var(--space-2) 0;
   flex-shrink: 0;
 }
 
@@ -53,7 +55,8 @@
 
 .title {
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-header-text);
   line-height: 1.25;
 }
 
@@ -79,8 +82,7 @@
 }
 
 .ksaIcon {
-  color: var(--color-header-text);
-  opacity: 0.9;
+  color: var(--color-brand-deep);
   flex-shrink: 0;
 }
 
@@ -92,7 +94,8 @@
 
 .ksaTime {
   font-size: var(--font-size-xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-header-text);
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
 }
@@ -112,32 +115,36 @@
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-md);
   color: var(--color-header-text);
+  transition: background-color var(--transition-fast);
 }
 
 .user:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--color-surface-hover);
 }
 
+/* Inverted against the old design: a filled brand-blue disc keeps the avatar
+   visible now that the navbar behind it is white. */
 .avatar {
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 50%;
-  background-color: var(--color-surface);
-  color: var(--color-header);
+  background-color: var(--color-brand-deep);
+  color: #ffffff;
   display: grid;
   place-items: center;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-base);
   flex-shrink: 0;
 }
 
 .userLabel {
   font-size: var(--font-size-sm);
+  color: var(--color-header-text);
   white-space: nowrap;
 }
 
 .userChevron {
-  opacity: 0.85;
+  color: var(--color-header-muted);
 }
 
 /* --- Responsive ----------------------------------------------------------- */

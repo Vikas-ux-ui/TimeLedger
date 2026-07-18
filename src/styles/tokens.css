@@ -6,11 +6,19 @@
 
 :root {
   /* --- Brand ------------------------------------------------------------ */
+  /* The brand accent. Still used for primary buttons and the active page
+     control, so it stays even though the navbar itself is now white. */
   --color-header: #7296c4;
   --color-header-dark: #5f83b3;
-  --color-header-text: #ffffff;
-  --color-header-muted: rgba(255, 255, 255, 0.85);
-  --color-header-divider: rgba(255, 255, 255, 0.4);
+  /* A deeper shade of the same blue, for brand marks that need to clear
+     contrast thresholds against white (#7296c4 on white is only ~3.1:1). */
+  --color-brand-deep: #2a5e9d;
+
+  /* Navbar surface and its foreground colours. */
+  --color-header-bg: #ffffff;
+  --color-header-text: #101828;
+  --color-header-muted: #475467;
+  --color-header-divider: #e4e7ec;
 
   --color-table-header: #e2e2e5;
   --color-table-header-text: #000000;
