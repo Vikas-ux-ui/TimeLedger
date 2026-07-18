@@ -1,0 +1,97 @@
+/**
+ * Agility Insights design tokens.
+ * Brand values here are mandated by the requirements; components reference the
+ * tokens rather than repeating literal colours.
+ */
+
+:root {
+  /* --- Brand ------------------------------------------------------------ */
+  --color-header: #7296c4;
+  --color-header-dark: #5f83b3;
+  --color-header-text: #ffffff;
+  --color-header-muted: rgba(255, 255, 255, 0.82);
+  --color-header-divider: rgba(255, 255, 255, 0.45);
+
+  --color-table-header: #e2e2e5;
+  --color-table-header-text: #000000;
+
+  /* --- Surfaces --------------------------------------------------------- */
+  --color-page-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafbfc;
+  --color-surface-hover: #eef3f9;
+
+  /* --- Text ------------------------------------------------------------- */
+  --color-text: #1a1a1a;
+  --color-text-muted: #5f6672;
+  --color-text-subtle: #808792;
+
+  /* --- Lines ------------------------------------------------------------ */
+  --color-border: #dfe1e6;
+  --color-border-strong: #c9ccd3;
+
+  /* --- Status ----------------------------------------------------------- */
+  /* Text tones are darkened for contrast against their own soft backgrounds. */
+  --color-online: #1a7f45;
+  --color-online-bg: #e6f4ec;
+  --color-online-border: #b7e0c8;
+
+  --color-limited: #9a5b00;
+  --color-limited-bg: #fdf3e2;
+  --color-limited-border: #f0d5a8;
+
+  --color-soon: #1f5fa8;
+  --color-soon-bg: #e8f1fb;
+  --color-soon-border: #bcd6f2;
+
+  --color-offline: #5a6069;
+  --color-offline-bg: #eef0f2;
+  --color-offline-border: #d5d9de;
+
+  --color-danger: #b3261e;
+  --color-danger-bg: #fdecea;
+  --color-danger-border: #f3c4bf;
+
+  /* --- Deployment / note cards ------------------------------------------ */
+  --color-info-bg: #e9f1fa;
+  --color-info-border: #c3d9ef;
+  --color-info-text: #2b5f9e;
+
+  --color-note-bg: #fdf7e7;
+  --color-note-border: #ecd9a8;
+  --color-note-text: #7a5a12;
+
+  /* --- Focus ------------------------------------------------------------ */
+  --color-focus: #1f5fa8;
+  --focus-ring: 0 0 0 3px rgba(31, 95, 168, 0.35);
+
+  /* --- Type ------------------------------------------------------------- */
+  --font-family: 'Times New Roman', Times, serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.9375rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 2rem;
+
+  /* --- Space ------------------------------------------------------------ */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* --- Shape ------------------------------------------------------------ */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-popover: 0 8px 24px rgba(16, 24, 40, 0.14);
+
+  --layout-max-width: 1440px;
+}

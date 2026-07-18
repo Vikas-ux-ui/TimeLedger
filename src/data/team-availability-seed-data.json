@@ -1,0 +1,840 @@
+{
+  "generatedAtUtc": "2026-07-18T07:33:10.750Z",
+  "settings": {
+    "ksaTimeZone": "Asia/Riyadh",
+    "productionDeploymentMinimumHours": 4.5,
+    "productionCommunicationCutoffKsa": "16:00",
+    "defaultWorkStartLocal": "09:00",
+    "defaultWorkEndLocal": "23:00"
+  },
+  "items": [
+    {
+      "id": "guardians--lexi-addams",
+      "sourceSequence": 1,
+      "name": "Lexi Addams",
+      "email": "lexi.addams@agilityinsights.ai",
+      "team": "Guardians",
+      "role": "PO",
+      "locationLabel": "Omaha, USA",
+      "timeZone": "America/Chicago",
+      "countryCode": "US",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "guardians--vinay-saini",
+      "sourceSequence": 2,
+      "name": "Vinay Saini",
+      "email": "vinay.saini@agilityinsights.ai",
+      "team": "Guardians",
+      "role": "Dev",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "guardians--vaibhav-gadakh",
+      "sourceSequence": 3,
+      "name": "Vaibhav Gadakh",
+      "email": "vaibhav.gadakh@agilityinsights.ai",
+      "team": "Guardians",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--gopala-krishna-manchukonda",
+      "sourceSequence": 4,
+      "name": "Gopala Krishna Manchukonda",
+      "email": "gopalakrisha.manchukonda@agilityinsights.ai",
+      "team": "Insight Pioneers",
+      "role": "Data",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--kajal-nathani",
+      "sourceSequence": 5,
+      "name": "Kajal Nathani",
+      "email": "kajal.nathani@agilityhealthradar.com",
+      "team": "Insight Pioneers",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--sandiya-venkateswaran",
+      "sourceSequence": 6,
+      "name": "Sandiya Venkateswaran",
+      "email": "sandiya.venkateswaran@agilityhealthradar.com",
+      "team": "Insight Pioneers",
+      "role": "PO",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--khwahish-batra",
+      "sourceSequence": 7,
+      "name": "Khwahish Batra",
+      "email": "khwahish.batra@agilityinsights.ai",
+      "team": "Insight Pioneers",
+      "role": "Frontend",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--abhishek-baurai",
+      "sourceSequence": 8,
+      "name": "Abhishek Baurai",
+      "email": "abhishek.baurai@agilityinsights.ai",
+      "team": "Insight Pioneers",
+      "role": "Frontend",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--parth-dudhat",
+      "sourceSequence": 9,
+      "name": "Parth Dudhat",
+      "email": "parth.dudhat@agilityhealthradar.com",
+      "team": "Insight Pioneers",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "insight-pioneers--syed-abdullah-muzaffar",
+      "sourceSequence": 10,
+      "name": "Syed Abdullah Muzaffar",
+      "email": "syed.muzaffar@agilityinsights.ai",
+      "team": "Insight Pioneers",
+      "role": "Parttime AI Engineer",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--brayan-giraldo",
+      "sourceSequence": 11,
+      "name": "Brayan Giraldo",
+      "email": "brayan.giraldo@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "Fullstack",
+      "locationLabel": "Colombia",
+      "timeZone": "America/Bogota",
+      "countryCode": "CO",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--kamran-musayev",
+      "sourceSequence": 12,
+      "name": "Kamran Musayev",
+      "email": "kamran.musayev@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "Backend",
+      "locationLabel": "Azerbaijan",
+      "timeZone": "Asia/Baku",
+      "countryCode": "AZ",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--kesha-dean",
+      "sourceSequence": 13,
+      "name": "Kesha Dean",
+      "email": "kesha.dean@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "PO",
+      "locationLabel": "California, USA",
+      "timeZone": "America/Los_Angeles",
+      "countryCode": "US",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--aasmi-saini",
+      "sourceSequence": 14,
+      "name": "Aasmi Saini",
+      "email": "Aasmi.Saini@agilityinsights.ai",
+      "team": "Warriors",
+      "role": "Scrum Master for BO | PO for PDF PPT",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--muhammad-sufyan",
+      "sourceSequence": 15,
+      "name": "Muhammad Sufyan",
+      "email": "muhammad.sufyan@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "Frontend",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--sajal-wani",
+      "sourceSequence": 16,
+      "name": "Sajal Wani",
+      "email": "sajal.wani@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--razi-ahmed",
+      "sourceSequence": 17,
+      "name": "Razi Ahmed",
+      "email": "Razi.Ahmed@agilityinsights.ai",
+      "team": "Warriors",
+      "role": "Frontend",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--maaz-uddin",
+      "sourceSequence": 18,
+      "name": "Maaz Uddin",
+      "email": "maaz.uddin@agilityinsights.ai",
+      "team": "Warriors",
+      "role": "Frontend",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--kajal-nathani",
+      "sourceSequence": 19,
+      "name": "Kajal Nathani",
+      "email": "kajal.nathani@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--anuj-gupta",
+      "sourceSequence": 20,
+      "name": "Anuj Gupta",
+      "email": "anuj@agilityhealthradar.com",
+      "team": "Warriors",
+      "role": "Tech Lead",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--gopala-krishna-manchukonda",
+      "sourceSequence": 21,
+      "name": "Gopala Krishna Manchukonda",
+      "email": "gopalakrisha.manchukonda@agilityinsights.ai",
+      "team": "Warriors",
+      "role": "Spoc",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "warriors--kishan-kumar",
+      "sourceSequence": 22,
+      "name": "Kishan Kumar",
+      "email": "kishan.kumar@agilityinsights.ai",
+      "team": "Warriors",
+      "role": "PDF/PPT",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "fastlane--anuj-gupta",
+      "sourceSequence": 23,
+      "name": "Anuj Gupta",
+      "email": "anuj@agilityinsights.ai",
+      "team": "Fastlane",
+      "role": "Tech Lead",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "fastlane--aasmi-saini",
+      "sourceSequence": 24,
+      "name": "Aasmi Saini",
+      "email": "Aasmi.Saini@agilityinsights.ai",
+      "team": "Fastlane",
+      "role": "PO",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "fastlane--suyash-shukla",
+      "sourceSequence": 25,
+      "name": "Suyash Shukla",
+      "email": "Suyash.Shukla@agilityinsights.ai",
+      "team": "Fastlane",
+      "role": "React Native Dev",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "fastlane--gopala-krishna-manchukonda",
+      "sourceSequence": 26,
+      "name": "Gopala Krishna Manchukonda",
+      "email": "gopalakrisha.manchukonda@agilityinsights.ai",
+      "team": "Fastlane",
+      "role": "Data",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--dave-paul",
+      "sourceSequence": 27,
+      "name": "Dave Paul",
+      "email": "dave@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "Tech Lead",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--vaibhav-gadakh",
+      "sourceSequence": 28,
+      "name": "Vaibhav Gadakh",
+      "email": "vaibhav.gadakh@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--anuj-gupta",
+      "sourceSequence": 29,
+      "name": "Anuj Gupta",
+      "email": "anuj@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "Tech Lead",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": true,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--lilly-bisht",
+      "sourceSequence": 30,
+      "name": "Lilly Bisht",
+      "email": "lilly.bisht@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "PM",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--priyanka-batra",
+      "sourceSequence": 31,
+      "name": "Priyanka Batra",
+      "email": "priyanka.batra@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--bikramjeet-singh",
+      "sourceSequence": 32,
+      "name": "Bikramjeet Singh",
+      "email": "bikramjeet.singh@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "skynet-cassata--amit-joshi",
+      "sourceSequence": 33,
+      "name": "Amit Joshi",
+      "email": "Amit.joshi@agilityinsights.ai",
+      "team": "Skynet & Cassata",
+      "role": "QA",
+      "locationLabel": "India",
+      "timeZone": "Asia/Kolkata",
+      "countryCode": "IN",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "ui-ux--shaikh-rizwan",
+      "sourceSequence": 34,
+      "name": "Shaikh Rizwan",
+      "email": "shaikh.rizwan@agilityinsights.ai",
+      "team": "UI/UX",
+      "role": "UI/UX",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "ui-ux--muzammil-kesrani",
+      "sourceSequence": 35,
+      "name": "Muzammil Kesrani",
+      "email": "muzammil.kesrani@agilityhealthradar.com",
+      "team": "UI/UX",
+      "role": "UI/UX",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "ui-ux--yousuf-shaikh",
+      "sourceSequence": 36,
+      "name": "Yousuf Shaikh",
+      "email": "yousuf.shaikh@agilityinsights.ai",
+      "team": "UI/UX",
+      "role": "UI/UX",
+      "locationLabel": "Pakistan",
+      "timeZone": "Asia/Karachi",
+      "countryCode": "PK",
+      "isShared": false,
+      "workSchedule": {
+        "startLocal": "09:00",
+        "endLocal": "23:00",
+        "workDays": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    }
+  ]
+}

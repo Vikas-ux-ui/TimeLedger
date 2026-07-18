@@ -1,0 +1,55 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+/* The dot is decorative reinforcement; the label always carries the meaning. */
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.online {
+  background-color: var(--color-online-bg);
+  border-color: var(--color-online-border);
+  color: var(--color-online);
+}
+
+.limited {
+  background-color: var(--color-limited-bg);
+  border-color: var(--color-limited-border);
+  color: var(--color-limited);
+}
+
+.startsSoon {
+  background-color: var(--color-soon-bg);
+  border-color: var(--color-soon-border);
+  color: var(--color-soon);
+}
+
+.offline {
+  background-color: var(--color-offline-bg);
+  border-color: var(--color-offline-border);
+  color: var(--color-offline);
+}
+
+.nonWorkingDay {
+  background-color: var(--color-offline-bg);
+  border-color: var(--color-offline-border);
+  color: var(--color-offline);
+}
+
+.scheduleUnavailable {
+  background-color: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
+}

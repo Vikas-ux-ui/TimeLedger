@@ -1,0 +1,170 @@
+.header {
+  background-color: var(--color-header);
+  color: var(--color-header-text);
+  padding: var(--space-4) var(--space-6);
+}
+
+.inner {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+/* --- Brand ---------------------------------------------------------------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.brandName {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  max-width: 7ch;
+}
+
+.divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 2.5rem;
+  background-color: var(--color-header-divider);
+}
+
+.titleBlock {
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-header-muted);
+  line-height: 1.4;
+}
+
+/* --- Right cluster -------------------------------------------------------- */
+
+.rightCluster {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.ksaCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ksaIcon {
+  color: var(--color-header-text);
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+.ksaLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-header-muted);
+  line-height: 1.3;
+}
+
+.ksaTime {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.ksaDate {
+  font-size: var(--font-size-xs);
+  color: var(--color-header-muted);
+  line-height: 1.3;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  color: var(--color-header-text);
+}
+
+.user:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-header);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  flex-shrink: 0;
+}
+
+.userLabel {
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.userChevron {
+  opacity: 0.85;
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .inner {
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .rightCluster {
+    margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 560px) {
+  .header {
+    padding: var(--space-4);
+  }
+
+  .brand {
+    gap: var(--space-3);
+    width: 100%;
+  }
+
+  .brandName {
+    max-width: none;
+    font-size: var(--font-size-lg);
+  }
+
+  .rightCluster {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .userLabel {
+    display: none;
+  }
+}

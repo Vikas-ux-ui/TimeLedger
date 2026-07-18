@@ -1,121 +1,122 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { AppHeader } from './components/AppHeader/AppHeader'
+import { ViewerLocation } from './components/ViewerLocation/ViewerLocation'
+import { SearchFilters } from './components/SearchFilters/SearchFilters'
+import { TeamAvailabilityTable } from './components/TeamAvailabilityTable/TeamAvailabilityTable'
+import { Pagination } from './components/Pagination/Pagination'
+import { DeploymentTimelineCard } from './components/DeploymentCards/DeploymentTimelineCard'
+import { ProductionCommunicationNote } from './components/DeploymentCards/ProductionCommunicationNote'
+import { CutoffWarning } from './components/CutoffWarning/CutoffWarning'
+import { ErrorState } from './components/ErrorState/ErrorState'
+import { useCurrentTime } from './hooks/useCurrentTime'
+import { useViewerTimeZone } from './hooks/useViewerTimeZone'
+import { useTeamMembers } from './hooks/useTeamMembers'
+import { useTeamFilters } from './hooks/useTeamFilters'
+import { isPastKsaCommunicationCutoff } from './utils/timeZoneUtils'
+import { APP_SETTINGS } from './config/settings'
+import cardStyles from './components/DeploymentCards/DeploymentCards.module.css'
+import styles from './App.module.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export function App() {
+  // One clock instant drives the header, every row, and the cutoff advisory,
+  // so nothing on the page can disagree with anything else.
+  const now = useCurrentTime()
+  const viewerTimeZone = useViewerTimeZone()
+  const { members, isLoading, error, retry } = useTeamMembers()
+
+  const {
+    filters,
+    setFilters,
+    sort,
+    setSort,
+    page,
+    setPage,
+    rowsPerPage,
+    setRowsPerPage,
+    reset,
+    paginatedEntries,
+    filteredCount,
+    totalCount,
+    totalPages,
+    rangeStart,
+    rangeEnd,
+    teamOptions,
+    roleOptions,
+    locationOptions,
+  } = useTeamFilters(members, now)
+
+  const pastCutoff = isPastKsaCommunicationCutoff(now)
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className={styles.page}>
+      <AppHeader now={now} />
 
-      <div className="ticks"></div>
+      <ViewerLocation
+        now={now}
+        timeZone={viewerTimeZone.timeZone}
+        detectedTimeZone={viewerTimeZone.detectedTimeZone}
+        isOverridden={viewerTimeZone.isOverridden}
+        onOverrideChange={viewerTimeZone.setOverride}
+        members={members}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <main className={styles.main}>
+        {pastCutoff && <CutoffWarning now={now} />}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        <SearchFilters
+          filters={filters}
+          onFiltersChange={setFilters}
+          onReset={reset}
+          teamOptions={teamOptions}
+          roleOptions={roleOptions}
+          locationOptions={locationOptions}
+        />
+
+        {error ? (
+          <ErrorState onRetry={retry} detail={error} />
+        ) : (
+          <TeamAvailabilityTable
+            entries={paginatedEntries}
+            now={now}
+            sort={sort}
+            onSortChange={setSort}
+            filteredCount={filteredCount}
+            totalCount={totalCount}
+            isLoading={isLoading}
+            onResetFilters={reset}
+            footer={
+              !isLoading &&
+              filteredCount > 0 && (
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  rowsPerPage={rowsPerPage}
+                  rangeStart={rangeStart}
+                  rangeEnd={rangeEnd}
+                  totalItems={filteredCount}
+                  onPageChange={setPage}
+                  onRowsPerPageChange={setRowsPerPage}
+                />
+              )
+            }
+          />
+        )}
+
+        <div className={cardStyles.grid}>
+          <DeploymentTimelineCard />
+          <ProductionCommunicationNote />
+        </div>
+      </main>
+
+      {/* Stating the basis for "Online" keeps the product honest: this is a
+          schedule view, not an attendance or presence system. */}
+      <footer className={styles.footerNote}>
+        <p>
+          {APP_SETTINGS.applicationName} shows <strong>scheduled</strong> availability.
+          Statuses are derived from each team member&apos;s configured working hours and
+          time zone — they do not reflect actual login, logout, attendance, or presence.
+        </p>
+      </footer>
+    </div>
   )
 }
 
