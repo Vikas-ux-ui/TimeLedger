@@ -235,11 +235,9 @@ describe('shared identity', () => {
     await user.type(screen.getByLabelText('Search team members'), 'Gopala')
     let rows = allRows()
     expect(rows).toHaveLength(3)
-    for (const row of rows) {
-      expect(logoutInput(row)).toHaveValue('23:00')
-    }
 
-    // Edit only the first one.
+    // Edit only the first one. The starting value is not asserted, because the
+    // seed file is editable and this test is about propagation, not defaults.
     const first = logoutInput(rows[0]!)
     await user.clear(first)
     await user.type(first, '20:30')
@@ -337,15 +335,19 @@ describe('shared identity', () => {
     const user = await renderApp()
     await user.type(screen.getByLabelText('Search team members'), 'Gopala')
 
+    // Captured rather than hardcoded, so the assertion is "these went back to
+    // what they were", independent of what the seed file currently holds.
+    const before = allRows().map((row) => logoutInput(row).value)
+
     const first = logoutInput(allRows()[0]!)
     await user.clear(first)
     await user.type(first, '17:00')
     await user.tab()
 
     expect(await screen.findByRole('alert')).toBeInTheDocument()
-    for (const row of allRows()) {
-      expect(logoutInput(row)).toHaveValue('23:00')
-    }
+    allRows().forEach((row, index) => {
+      expect(logoutInput(row)).toHaveValue(before[index]!)
+    })
   })
 })
 
