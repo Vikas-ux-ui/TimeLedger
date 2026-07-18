@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { AvailabilitySummary } from './AvailabilitySummary'
 import { getExpectedCompletion, selectDeploymentReady } from '../../utils/deploymentUtils'
 import { INSTANTS, makeEntry, makeMember } from '../../test/factories'
@@ -139,6 +140,54 @@ describe('AvailabilitySummary', () => {
     )
 
     expect(screen.queryByText(/Member leaves/)).not.toBeInTheDocument()
+  })
+
+  it('shows only the first three, with the header still reporting the total', async () => {
+    const user = userEvent.setup()
+    const many = ['23:59', '23:58', '23:57', '23:56', '23:55'].map((end, i) =>
+      entryWithEnd(`m${i}`, end),
+    )
+
+    render(<AvailabilitySummary entries={many} now={now} />)
+
+    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+    // The count is the number available, not the number on screen.
+    expect(screen.getByText('5')).toBeInTheDocument()
+
+    const toggle = screen.getByRole('button', { name: /Show 2 more members/i })
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+    await user.click(toggle)
+
+    expect(screen.getAllByRole('listitem')).toHaveLength(5)
+    expect(screen.getByRole('button', { name: /Show less/i })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    )
+  })
+
+  it('collapses back to three on Show less', async () => {
+    const user = userEvent.setup()
+    const many = ['23:59', '23:58', '23:57', '23:56'].map((end, i) =>
+      entryWithEnd(`m${i}`, end),
+    )
+
+    render(<AvailabilitySummary entries={many} now={now} />)
+
+    await user.click(screen.getByRole('button', { name: /Show 1 more member/i }))
+    expect(screen.getAllByRole('listitem')).toHaveLength(4)
+
+    await user.click(screen.getByRole('button', { name: /Show less/i }))
+    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+  })
+
+  it('offers no toggle when three or fewer are available', () => {
+    const few = ['23:59', '23:58', '23:57'].map((end, i) => entryWithEnd(`m${i}`, end))
+
+    render(<AvailabilitySummary entries={few} now={now} />)
+
+    expect(screen.getAllByRole('listitem')).toHaveLength(3)
+    expect(screen.queryByRole('button', { name: /Show/i })).not.toBeInTheDocument()
   })
 
   it('shows a friendly message when nobody is available', () => {

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useId, useMemo, useState } from 'react'
 import type { MemberAvailability } from '../../types/availability'
 import { APP_SETTINGS } from '../../config/settings'
 import {
@@ -8,8 +8,11 @@ import {
 import { formatTime } from '../../utils/timeZoneUtils'
 import { formatDuration, formatTimeOfDay12h } from '../../utils/formatUtils'
 import { CountryFlag } from '../CountryFlag/CountryFlag'
-import { ClockIcon, InfoIcon } from '../icons/Icons'
+import { ChevronDownIcon, ClockIcon, InfoIcon } from '../icons/Icons'
 import styles from './AvailabilitySummary.module.css'
+
+/** How many people the panel shows before it needs expanding. */
+const COLLAPSED_COUNT = 3
 
 type AvailabilitySummaryProps = {
   /** Filtered, unpaginated entries — the summary covers every match, not one page. */
@@ -30,6 +33,8 @@ type AvailabilitySummaryProps = {
  */
 export function AvailabilitySummary({ entries, now }: AvailabilitySummaryProps) {
   const minimumHours = APP_SETTINGS.productionDeploymentMinimumHours
+  const listId = useId()
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const { expectedCompletion, ready } = useMemo(
     () => ({
@@ -39,6 +44,11 @@ export function AvailabilitySummary({ entries, now }: AvailabilitySummaryProps) 
     }),
     [entries, now, minimumHours],
   )
+
+  // Only the first few are shown until the reader asks for the rest; the count
+  // in the header always reports the full total.
+  const hiddenCount = Math.max(0, ready.length - COLLAPSED_COUNT)
+  const visible = isExpanded ? ready : ready.slice(0, COLLAPSED_COUNT)
 
   return (
     <section className={styles.panel} aria-labelledby="availability-summary-heading">
@@ -95,8 +105,8 @@ export function AvailabilitySummary({ entries, now }: AvailabilitySummaryProps) 
           </p>
         </div>
       ) : (
-        <ul className={styles.list}>
-          {ready.map(({ member, availability }) => (
+        <ul className={styles.list} id={listId}>
+          {visible.map(({ member, availability }) => (
             <li key={member.id} className={styles.member}>
               <div className={styles.memberHead}>
                 <CountryFlag countryCode={member.countryCode} />
@@ -138,6 +148,26 @@ export function AvailabilitySummary({ entries, now }: AvailabilitySummaryProps) 
             </li>
           ))}
         </ul>
+      )}
+
+      {hiddenCount > 0 && (
+        <div className={styles.footer}>
+          <button
+            type="button"
+            className={styles.toggle}
+            onClick={() => setIsExpanded((expanded) => !expanded)}
+            aria-expanded={isExpanded}
+            aria-controls={listId}
+          >
+            {isExpanded
+              ? 'Show less'
+              : `Show ${hiddenCount} more ${hiddenCount === 1 ? 'member' : 'members'}`}
+            <ChevronDownIcon
+              size={15}
+              className={`${styles.toggleIcon} ${isExpanded ? styles.toggleIconOpen : ''}`}
+            />
+          </button>
+        </div>
       )}
     </section>
   )
