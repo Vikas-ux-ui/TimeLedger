@@ -62,10 +62,10 @@ upcoming shift duration — which is why a member can show a large hours-left va
 still not be deployment eligible: eligibility additionally requires that they are
 *currently* inside working hours.
 
-> The 5-hour minimum is a business setting, not a constant baked into the logic. It
-> lives in `src/config/settings.ts` (`productionDeploymentMinimumHours`) and is the
-> single value that drives the status thresholds, the eligibility rule, the row
-> tooltips, the filter shortcut, and the timeline card.
+> The 5-hour minimum is a business setting, not a constant baked into the logic. See
+> [Configuration](#configuration) below — it is read from the JSON config file and
+> drives the status thresholds, the eligibility rule, the row tooltips, the filter
+> shortcut, and the timeline card from that one value.
 
 ---
 
@@ -150,6 +150,49 @@ from. It already returns a Promise, so replacing the JSON import with a `fetch` 
 
 ---
 
+## Configuration
+
+Business settings live in the `settings` block of
+`src/data/team-availability-seed-data.json`:
+
+```json
+"settings": {
+  "ksaTimeZone": "Asia/Riyadh",
+  "productionDeploymentMinimumHours": 5,
+  "productionCommunicationCutoffKsa": "16:00",
+  "defaultWorkStartLocal": "09:00",
+  "defaultWorkEndLocal": "23:00"
+}
+```
+
+Editing a value there changes the application's behaviour — no code change is needed.
+Changing `productionDeploymentMinimumHours` to `4.5` or `6` moves the deployment
+eligibility rule, the Online/Limited status boundary, the row tooltips, the
+"minimum hours left" filter shortcut, and the timeline card together.
+
+**How it resolves.** `src/config/settings.ts` reads the block through the existing
+data boundary (`getSeedSettings()`), validates each field, and merges it over
+`DEFAULT_SETTINGS`. Everything else in the app reads the resulting `APP_SETTINGS`,
+so there is exactly one place a value enters the system.
+
+**Validation.** Each field is checked before use, and an invalid entry falls back to
+its default with a `console.warn` rather than throwing — one bad value degrades one
+setting, it never breaks the page.
+
+| Field | Accepted |
+|---|---|
+| `productionDeploymentMinimumHours` | finite number, `0`–`24` (a minimum longer than any shift would make everyone permanently ineligible) |
+| `productionCommunicationCutoffKsa` | `HH:mm`, 24-hour |
+| `defaultWorkStartLocal` / `defaultWorkEndLocal` | `HH:mm`, 24-hour |
+| `ksaTimeZone` | an IANA id this runtime resolves |
+
+**Backward compatibility.** Every field is optional. A config with a partial
+`settings` block, or none at all, still loads — each missing value falls back to its
+default. Branding fields (`applicationName`, colours, font) stay code-owned and are
+not read from the file.
+
+---
+
 ## Production deployment rules
 
 - **Minimum timeline: 5 hours.** A member is deployment eligible when they are
@@ -158,7 +201,7 @@ from. It already returns a Promise, so replacing the JSON import with a `fetch` 
 - **Preferred communication cutoff: 4:00 PM KSA.** After this time a page-level advisory
   appears. It is guidance only — it never hides data or blocks any action.
 
-Both values live in `src/config/settings.ts` and can be changed in one place.
+Both values are configurable — see [Configuration](#configuration).
 
 ---
 
@@ -172,8 +215,8 @@ src/
   hooks/            useCurrentTime, useViewerTimeZone, useTeamFilters, useTeamMembers
   utils/            timeZoneUtils, availabilityUtils, filterUtils, formatUtils
   types/            teamMember, availability
-  services/         teamAvailabilityService  (data access boundary)
-  config/           settings  (all business configuration)
+  services/         teamAvailabilityService  (data + config access boundary)
+  config/           settings  (defaults, validation, resolved APP_SETTINGS)
   data/             team-availability-seed-data.json
   styles/           tokens.css
   test/             setup, factories

@@ -80,12 +80,6 @@ describe('computeAvailability', () => {
     expect(result.deploymentEligible).toBe(false)
   })
 
-  // Pins the business rule itself. The boundary tests below derive from this
-  // value, so this is what fails if the configured minimum is changed.
-  it('requires 5 hours for a production deployment', () => {
-    expect(APP_SETTINGS.productionDeploymentMinimumHours).toBe(5)
-  })
-
   // Required test 8
   it('is deployment eligible at exactly the configured minimum', () => {
     const result = computeAvailability(

@@ -39,14 +39,22 @@ export type ProductionTimelineConfig = {
   communicationCutoffKsa: string
 }
 
+/**
+ * The `settings` block of the configuration file.
+ *
+ * Every field is optional: an older or partial config stays valid, and each
+ * missing value falls back to its default in `resolveSettings`.
+ */
+export type ConfigurableSettings = {
+  ksaTimeZone?: string
+  productionDeploymentMinimumHours?: number
+  productionCommunicationCutoffKsa?: string
+  defaultWorkStartLocal?: string
+  defaultWorkEndLocal?: string
+}
+
 export type TeamAvailabilitySeedData = {
   generatedAtUtc: string
-  settings: {
-    ksaTimeZone: string
-    productionDeploymentMinimumHours: number
-    productionCommunicationCutoffKsa: string
-    defaultWorkStartLocal: string
-    defaultWorkEndLocal: string
-  }
+  settings?: ConfigurableSettings
   items: TeamMember[]
 }

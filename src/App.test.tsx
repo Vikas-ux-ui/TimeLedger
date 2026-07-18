@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { UserEvent } from '@testing-library/user-event'
 import { App } from './App'
 import { INSTANTS } from './test/factories'
+import { APP_SETTINGS } from './config/settings'
 
 /**
  * Component tests drive the real dataset (36 team-membership records) through
@@ -84,7 +85,10 @@ describe('page shell', () => {
     await renderApp()
 
     expect(screen.getByText('Production Deployment Minimum Timeline')).toBeInTheDocument()
-    expect(screen.getByText('5 hours')).toBeInTheDocument()
+    // Derived from configuration, so changing the JSON does not break this test.
+    expect(
+      screen.getByText(`${APP_SETTINGS.productionDeploymentMinimumHours} hours`),
+    ).toBeInTheDocument()
     expect(
       screen.getByText(/Minimum notice required before production deployment/i),
     ).toBeInTheDocument()

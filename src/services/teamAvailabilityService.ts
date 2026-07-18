@@ -1,4 +1,8 @@
-import type { TeamAvailabilitySeedData, TeamMember } from '../types/teamMember'
+import type {
+  ConfigurableSettings,
+  TeamAvailabilitySeedData,
+  TeamMember,
+} from '../types/teamMember'
 import seedData from '../data/team-availability-seed-data.json'
 
 /**
@@ -13,6 +17,14 @@ export async function fetchTeamMembers(): Promise<TeamMember[]> {
   return Promise.resolve(payload.items)
 }
 
-export function getSeedSettings(): TeamAvailabilitySeedData['settings'] {
+/**
+ * The raw `settings` block from the configuration file.
+ *
+ * Returned unvalidated on purpose — `resolveSettings` in the config layer owns
+ * validation, so this stays a pure data-access concern. Reads synchronously
+ * because the config is bundled; a future API would resolve it alongside the
+ * team payload.
+ */
+export function getSeedSettings(): ConfigurableSettings | undefined {
   return (seedData as TeamAvailabilitySeedData).settings
 }
