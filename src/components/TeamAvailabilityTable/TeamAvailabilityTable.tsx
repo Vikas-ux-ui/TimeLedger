@@ -42,14 +42,12 @@ const COLUMNS: ColumnDef[] = [
   {
     key: 'localHours',
     label: 'Local Working Hours',
-    subLabel: '(Today)',
     sortKey: 'local-end-asc',
   },
   {
     key: 'logoutTime',
     label: 'Logout Time',
     subLabel: '(Local)',
-    info: 'The scheduled end of this member’s working day, in their own time zone. Editing it updates their working hours, hours left and status.',
   },
   { key: 'ksaTime', label: 'KSA Current Time' },
   { key: 'ksaHours', label: 'Working Hours in KSA' },
