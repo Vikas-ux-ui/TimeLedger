@@ -511,10 +511,16 @@
     justify-content: flex-end;
   }
 
-  /* Pills and icon buttons hug the right edge instead of filling the column. */
+  /* Pills, inputs and icon buttons hug the right edge instead of filling the
+     column, so every value in the card lines up on the same axis. */
   .table tbody td[data-label='Status'] > *,
-  .table tbody td[data-label='Actions'] > * {
+  .table tbody td[data-label='Actions'] > *,
+  .table tbody td[data-label='Logout Time'] > * {
     justify-self: end;
+  }
+
+  .table tbody td[data-label='Logout Time'] {
+    align-items: center;
   }
 
   .progressTrack {

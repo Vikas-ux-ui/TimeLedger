@@ -21,7 +21,7 @@ export function App() {
   // so nothing on the page can disagree with anything else.
   const now = useCurrentTime()
   const viewerTimeZone = useViewerTimeZone()
-  const { members, isLoading, error, retry } = useTeamMembers()
+  const { members, isLoading, error, retry, setLogoutTime, saveError } = useTeamMembers()
 
   const {
     filters,
@@ -62,6 +62,14 @@ export function App() {
       <main className={styles.main}>
         {pastCutoff && <CutoffWarning now={now} />}
 
+        {/* A failed save has already been rolled back in the table; this says
+            why the value snapped back. */}
+        {saveError && (
+          <p className={styles.saveError} role="alert">
+            {saveError}
+          </p>
+        )}
+
         <SearchFilters
           filters={filters}
           onFiltersChange={setFilters}
@@ -83,6 +91,7 @@ export function App() {
             totalCount={totalCount}
             isLoading={isLoading}
             onResetFilters={reset}
+            onLogoutTimeChange={setLogoutTime}
             footer={
               !isLoading &&
               filteredCount > 0 && (

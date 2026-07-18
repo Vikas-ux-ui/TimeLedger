@@ -12,6 +12,7 @@ import {
   getInitials,
 } from '../../utils/formatUtils'
 import { CountryFlag } from '../CountryFlag/CountryFlag'
+import { LogoutTimeEditor } from '../LogoutTimeEditor/LogoutTimeEditor'
 import { StatusBadge } from '../StatusBadge/StatusBadge'
 import { MoreIcon } from '../icons/Icons'
 import styles from '../TeamAvailabilityTable/TeamAvailabilityTable.module.css'
@@ -19,6 +20,8 @@ import styles from '../TeamAvailabilityTable/TeamAvailabilityTable.module.css'
 type TeamMemberRowProps = {
   entry: MemberAvailability
   now: Date
+  /** Commits an edited local end-of-day time for this member. */
+  onLogoutTimeChange: (id: string, endLocal: string) => void
 }
 
 /** Decorative avatar tints. Never used to encode status. */
@@ -31,7 +34,7 @@ const AVATAR_COLORS = [
   { bg: '#e6f2f4', fg: '#2f6670' },
 ]
 
-export function TeamMemberRow({ entry, now }: TeamMemberRowProps) {
+export function TeamMemberRow({ entry, now, onLogoutTimeChange }: TeamMemberRowProps) {
   const { member, availability } = entry
   const {
     status,
@@ -140,6 +143,16 @@ export function TeamMemberRow({ entry, now }: TeamMemberRowProps) {
             </div>
           </>
         )}
+      </td>
+
+      {/* Editing this rewrites the member's scheduled end of day, so the
+          working-hours range, KSA range, hours left and status all follow. */}
+      <td data-label="Logout Time">
+        <LogoutTimeEditor
+          member={member}
+          onChange={onLogoutTimeChange}
+          disabled={status === 'schedule-unavailable'}
+        />
       </td>
 
       <td data-label="KSA Current Time">

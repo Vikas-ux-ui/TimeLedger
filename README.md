@@ -193,6 +193,38 @@ not read from the file.
 
 ---
 
+## Editing a logout time
+
+The **Logout Time** column is editable. It is the member's scheduled end of day in
+their own time zone — the same value as `workSchedule.endLocal`, surfaced directly
+rather than duplicated, so there is only ever one answer to "when does this person
+stop working".
+
+Changing it recalculates that row live: Local Working Hours, Working Hours in KSA,
+Hours Left, Status and deployment eligibility all follow from the new end time.
+
+The field commits on blur or <kbd>Enter</kbd>, and <kbd>Esc</kbd> cancels. A native
+`time` input is used so the browser supplies a real picker and keyboard support; the
+12-hour caption underneath states the value unambiguously, because the control itself
+renders 12- or 24-hour depending on the viewer's locale.
+
+**Where the edit goes.** In development a Vite middleware
+(`vite/seedDataApiPlugin.ts`) exposes `PATCH /api/team-members/:id` and writes the
+change straight into `src/data/team-availability-seed-data.json` — the file on disk
+really does change. A production build has no such server, so the client falls back
+to a `localStorage` overlay that is applied over the seed file on load. Either way the
+edit survives a refresh.
+
+The table updates optimistically and rolls the row back if the save is refused, so a
+value that was not stored is never left on screen.
+
+> The seed file is excluded from Vite's watcher (see `vite.config.ts`). Writing it
+> would otherwise trigger a full page reload on every edit and discard the user's
+> filters and page position. The trade-off is that hand-editing that file during
+> development needs a manual refresh.
+
+---
+
 ## Production deployment rules
 
 - **Minimum timeline: 5 hours.** A member is deployment eligible when they are

@@ -17,6 +17,8 @@ type TeamAvailabilityTableProps = {
   totalCount: number
   isLoading: boolean
   onResetFilters: () => void
+  /** Commits an edited local end-of-day time for a member. */
+  onLogoutTimeChange: (id: string, endLocal: string) => void
   /** Rendered under the table — pagination lives outside the scroll area. */
   footer?: React.ReactNode
 }
@@ -43,6 +45,12 @@ const COLUMNS: ColumnDef[] = [
     subLabel: '(Today)',
     sortKey: 'local-end-asc',
   },
+  {
+    key: 'logoutTime',
+    label: 'Logout Time',
+    subLabel: '(Local)',
+    info: 'The scheduled end of this member’s working day, in their own time zone. Editing it updates their working hours, hours left and status.',
+  },
   { key: 'ksaTime', label: 'KSA Current Time' },
   { key: 'ksaHours', label: 'Working Hours in KSA' },
   {
@@ -66,6 +74,7 @@ export function TeamAvailabilityTable({
   totalCount,
   isLoading,
   onResetFilters,
+  onLogoutTimeChange,
   footer,
 }: TeamAvailabilityTableProps) {
   const sortSelectId = useId()
@@ -181,7 +190,12 @@ export function TeamAvailabilityTable({
               <TableSkeleton columnCount={COLUMNS.length} />
             ) : (
               entries.map((entry) => (
-                <TeamMemberRow key={entry.member.id} entry={entry} now={now} />
+                <TeamMemberRow
+                  key={entry.member.id}
+                  entry={entry}
+                  now={now}
+                  onLogoutTimeChange={onLogoutTimeChange}
+                />
               ))
             )}
           </tbody>
