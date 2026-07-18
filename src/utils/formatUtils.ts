@@ -26,13 +26,17 @@ export function formatDurationLong(hours: number): string {
 }
 
 /**
- * `23:00` -> `11:00 PM`.
+ * Renders a stored `HH:mm` wall-clock time for display.
  *
- * A wall-clock time carries no date, so this formats the string directly
- * rather than going through a time zone. Returns the input unchanged if it is
- * not a `HH:mm` value.
+ * The value is always kept in 24-hour form; only the presentation follows the
+ * viewer's clock preference — `23:00` reads as `11:00 PM` on a 12-hour locale
+ * and `23:00` on a 24-hour one.
+ *
+ * A wall-clock time carries no date, so a throwaway date is used purely to
+ * drive `Intl`; nothing about it reaches the output. Returns the input
+ * unchanged if it is not a valid `HH:mm` value.
  */
-export function formatTimeOfDay12h(value: string): string {
+export function formatTimeOfDay(value: string, hour12: boolean): string {
   const match = /^(\d{1,2}):(\d{2})$/.exec(value.trim())
   if (!match) return value
 
@@ -40,9 +44,24 @@ export function formatTimeOfDay12h(value: string): string {
   const minute = Number(match[2])
   if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return value
 
-  const suffix = hour < 12 ? 'AM' : 'PM'
-  const displayHour = hour % 12 === 0 ? 12 : hour % 12
-  return `${displayHour}:${match[2]} ${suffix}`
+  try {
+    const parts = new Intl.DateTimeFormat(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      // Set explicitly rather than via `hour12`, which can resolve to h24 and
+      // render midnight as "24:00" on some locales.
+      hourCycle: hour12 ? 'h12' : 'h23',
+    }).formatToParts(new Date(2000, 0, 1, hour, minute))
+
+    // Only the day period is cased up — some English locales render "pm" — and
+    // AM/PM is conventionally capitalised in this UI. Ordering, separator and
+    // digits are left entirely to the locale.
+    return parts
+      .map((part) => (part.type === 'dayPeriod' ? part.value.toUpperCase() : part.value))
+      .join('')
+  } catch {
+    return value
+  }
 }
 
 /** `Lexi Addams` -> `LA`. Falls back to a single character. */

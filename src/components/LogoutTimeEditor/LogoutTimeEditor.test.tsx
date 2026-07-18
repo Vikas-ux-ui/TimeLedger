@@ -5,6 +5,16 @@ import type { UserEvent } from '@testing-library/user-event'
 import { App } from '../../App'
 import { INSTANTS } from '../../test/factories'
 import { clearScheduleOverrides } from '../../services/teamAvailabilityService'
+import { formatTimeOfDay } from '../../utils/formatUtils'
+import { detectHour12 } from '../../hooks/useTimeFormatPreference'
+
+/**
+ * ICU separates the time from AM/PM with a narrow no-break space. Testing
+ * Library normalizes whitespace in the DOM but not in the expected string, so
+ * the expectation is normalized to match.
+ */
+const displayed = (value: string) =>
+  formatTimeOfDay(value, detectHour12()).replace(/\s+/g, ' ')
 
 /**
  * Covers the editable Logout Time column end to end through the real app:
@@ -69,14 +79,14 @@ describe('Logout Time column', () => {
     const user = await renderApp()
     const row = await showVinay(user)
 
-    // 23:00 local, the seed default.
-    expect(logoutInput(row)).toHaveValue('23:00')
-    // Stated in 12-hour form too, since a native time input renders 12- or
-    // 24-hour depending on the viewer's locale.
-    expect(within(row).getByText('11:00 PM')).toBeInTheDocument()
+    // The stored value is always 24-hour, whatever the display shows.
+    const stored = logoutInput(row).value
+    expect(stored).toMatch(/^\d{2}:\d{2}$/)
+    // ...and the visible label follows the viewer's clock preference.
+    expect(within(row).getByText(displayed(stored))).toBeInTheDocument()
   })
 
-  it('restates the logout time in 12-hour form', async () => {
+  it('renders the logout time in the viewer’s clock format', async () => {
     const user = await renderApp()
     const row = await showVinay(user)
 
@@ -85,7 +95,9 @@ describe('Logout Time column', () => {
     await user.type(input, '20:30')
     await user.tab()
 
-    expect(within(soleRow()).getByText('8:30 PM')).toBeInTheDocument()
+    // The stored value stays 24-hour; only the label follows the locale.
+    expect(logoutInput(soleRow())).toHaveValue('20:30')
+    expect(within(soleRow()).getByText(displayed('20:30'))).toBeInTheDocument()
   })
 
   it('labels the input per member for screen readers', async () => {

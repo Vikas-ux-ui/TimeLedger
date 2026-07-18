@@ -27,7 +27,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -50,7 +51,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -73,7 +75,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -90,13 +93,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "20:30",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -119,7 +123,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -142,7 +147,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -165,7 +171,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -188,7 +195,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -211,7 +219,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -228,13 +237,14 @@
       "isShared": false,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "02:00",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -257,7 +267,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -274,13 +285,14 @@
       "isShared": false,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "01:01",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -303,7 +315,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -320,13 +333,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "00:53",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -349,7 +363,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -372,7 +387,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -395,7 +411,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -418,7 +435,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -441,7 +459,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -458,13 +477,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "18:00",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -481,13 +501,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "20:30",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -510,7 +531,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -527,13 +549,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "20:00",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -543,20 +566,21 @@
       "name": "Aasmi Saini",
       "email": "Aasmi.Saini@agilityinsights.ai",
       "team": "Fastlane",
-      "role": "PO",
+      "role": "PO for the Mobile App",
       "locationLabel": "India",
       "timeZone": "Asia/Kolkata",
       "countryCode": "IN",
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "00:53",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -579,7 +603,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -596,13 +621,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "20:30",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -625,7 +651,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -648,7 +675,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -665,13 +693,14 @@
       "isShared": true,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "20:00",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -694,7 +723,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -717,7 +747,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -740,7 +771,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -763,7 +795,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -786,7 +819,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -809,7 +843,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     },
@@ -826,13 +861,14 @@
       "isShared": false,
       "workSchedule": {
         "startLocal": "09:00",
-        "endLocal": "23:00",
+        "endLocal": "01:00",
         "workDays": [
           1,
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       }
     }

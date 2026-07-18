@@ -5,6 +5,36 @@
   min-width: 0;
 }
 
+/* Positioning context for the idle-state label drawn over the input. */
+.field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  /* Wide enough for a 12-hour reading plus its day period, so the label is
+     never clipped when the column is narrow. */
+  min-width: 8.25rem;
+  max-width: 9.5rem;
+}
+
+.display {
+  position: absolute;
+  left: var(--space-2);
+  /* Clears the native picker button on the right. */
+  right: 1.5rem;
+  pointer-events: none;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input:disabled + .display {
+  color: var(--color-text-subtle);
+}
+
 .input {
   height: var(--control-height-sm);
   padding: 0 var(--space-2);
@@ -15,8 +45,9 @@
   color: var(--color-text);
   font-size: var(--font-size-base);
   font-variant-numeric: tabular-nums;
+  /* Sizing is governed by the wrapping field, which reserves room for the
+     longest 12-hour reading. */
   width: 100%;
-  max-width: 8.5rem;
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast),
@@ -44,6 +75,19 @@
 .inputInvalid,
 .inputInvalid:hover:not(:disabled) {
   border-color: var(--color-danger);
+}
+
+/*
+ * While idle the input's own glyphs are made transparent and the
+ * locale-formatted label is drawn over them. The control keeps its size,
+ * border, picker button and focus behaviour — only the text is swapped.
+ *
+ * Declared after every other `.input` colour rule, including the disabled one,
+ * because these selectors carry equal specificity and the later one wins.
+ */
+.input.inputMasked,
+.input.inputMasked:disabled {
+  color: transparent;
 }
 
 /* The native picker indicator is dark by default and reads poorly on the

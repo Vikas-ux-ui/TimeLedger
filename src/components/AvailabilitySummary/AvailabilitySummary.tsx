@@ -6,7 +6,8 @@ import {
   selectDeploymentReady,
 } from '../../utils/deploymentUtils'
 import { formatTime } from '../../utils/timeZoneUtils'
-import { formatDuration, formatTimeOfDay12h } from '../../utils/formatUtils'
+import { formatDuration, formatTimeOfDay } from '../../utils/formatUtils'
+import { useTimeFormatPreference } from '../../hooks/useTimeFormatPreference'
 import { CountryFlag } from '../CountryFlag/CountryFlag'
 import { ChevronDownIcon, ClockIcon, InfoIcon } from '../icons/Icons'
 import styles from './AvailabilitySummary.module.css'
@@ -33,6 +34,7 @@ type AvailabilitySummaryProps = {
  */
 export function AvailabilitySummary({ entries, now }: AvailabilitySummaryProps) {
   const minimumHours = APP_SETTINGS.productionDeploymentMinimumHours
+  const hour12 = useTimeFormatPreference()
   const listId = useId()
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -123,7 +125,7 @@ export function AvailabilitySummary({ entries, now }: AvailabilitySummaryProps) 
               <p className={styles.detail}>
                 <span className={styles.detailLabel}>Logout</span>
                 <span className={styles.detailValue}>
-                  {formatTimeOfDay12h(member.workSchedule.endLocal)}
+                  {formatTimeOfDay(member.workSchedule.endLocal, hour12)}
                 </span>
               </p>
               {/* The whole point of the panel: the completion instant expressed

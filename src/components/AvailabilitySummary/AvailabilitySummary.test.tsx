@@ -6,6 +6,16 @@ import { getExpectedCompletion, selectDeploymentReady } from '../../utils/deploy
 import { INSTANTS, makeEntry, makeMember } from '../../test/factories'
 import { computeAvailability } from '../../utils/availabilityUtils'
 import { APP_SETTINGS } from '../../config/settings'
+import { formatTimeOfDay } from '../../utils/formatUtils'
+import { detectHour12 } from '../../hooks/useTimeFormatPreference'
+
+/**
+ * ICU separates the time from AM/PM with a narrow no-break space. Testing
+ * Library normalizes whitespace in the DOM but not in the expected string, so
+ * the expectation is normalized to match.
+ */
+const displayed = (value: string) =>
+  formatTimeOfDay(value, detectHour12()).replace(/\s+/g, ' ')
 
 const now = INSTANTS.mondayMidShiftIst // Mon 20 Jul 2026, 09:00 UTC / 12:00 KSA
 const MINIMUM = APP_SETTINGS.productionDeploymentMinimumHours
@@ -110,7 +120,8 @@ describe('AvailabilitySummary', () => {
     expect(within(item).getByText(/Member a/)).toBeInTheDocument()
     expect(within(item).getByText('(India)')).toBeInTheDocument()
     expect(within(item).getByText('2:30 PM')).toBeInTheDocument() // local now
-    expect(within(item).getByText('11:59 PM')).toBeInTheDocument() // logout, 12-hour
+    // Logout renders in the viewer's clock format; the stored value is 24-hour.
+    expect(within(item).getByText(displayed('23:59'))).toBeInTheDocument()
     expect(within(item).getByText('Available for deployment')).toBeInTheDocument()
   })
 

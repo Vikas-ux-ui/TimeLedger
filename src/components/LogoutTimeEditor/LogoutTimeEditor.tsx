@@ -1,7 +1,8 @@
 import { useId, useState } from 'react'
 import type { TeamMember } from '../../types/teamMember'
 import { isValidTimeOfDay } from '../../services/teamAvailabilityService'
-import { formatTimeOfDay12h } from '../../utils/formatUtils'
+import { formatTimeOfDay } from '../../utils/formatUtils'
+import { useTimeFormatPreference } from '../../hooks/useTimeFormatPreference'
 import styles from './LogoutTimeEditor.module.css'
 
 type LogoutTimeEditorProps = {
@@ -17,8 +18,14 @@ type LogoutTimeEditorProps = {
  * own time zone.
  *
  * Uses a native `time` input: it gives a real picker, is keyboard accessible,
- * renders in the viewer's 12/24-hour convention, and its value format is
- * already the `HH:mm` the schedule model stores.
+ * and its value format is already the `HH:mm` the schedule model stores.
+ *
+ * The input's own rendering is masked while idle and a locale-formatted label
+ * is drawn over it. A native time input offers no way to choose 12- or 24-hour
+ * display — the browser decides, and it does not always follow the viewer's
+ * clock preference — so the resting state is rendered here instead. The
+ * control underneath is untouched, so the picker, keyboard support and stored
+ * value all behave exactly as before.
  *
  * This is a *scheduled* logout, not an observed one. Nothing here claims the
  * person actually signed out at this time.
@@ -29,6 +36,7 @@ export function LogoutTimeEditor({
   disabled = false,
 }: LogoutTimeEditorProps) {
   const inputId = useId()
+  const hour12 = useTimeFormatPreference()
   const stored = member.workSchedule.endLocal
 
   // The draft is only in play while the field has focus. Once it blurs the
@@ -60,41 +68,49 @@ export function LogoutTimeEditor({
       <label className="sr-only" htmlFor={inputId}>
         Scheduled logout time for {member.name}, local time
       </label>
-      <input
-        id={inputId}
-        type="time"
-        className={`${styles.input} ${isInvalid ? styles.inputInvalid : ''}`}
-        value={isEditing ? draft : stored}
-        disabled={disabled}
-        aria-invalid={isInvalid || undefined}
-        onFocus={() => {
-          setDraft(stored)
-          setIsEditing(true)
-        }}
-        onChange={(event) => setDraft(event.target.value)}
-        // Commit on blur and on Enter rather than per keystroke, so a partially
-        // typed time never gets written to the schedule.
-        onBlur={(event) => commit(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') {
-            event.preventDefault()
-            event.currentTarget.blur()
-          }
-          if (event.key === 'Escape') {
+      <span className={styles.field}>
+        <input
+          id={inputId}
+          type="time"
+          className={`${styles.input} ${isInvalid ? styles.inputInvalid : ''} ${
+            isEditing ? '' : styles.inputMasked
+          }`}
+          value={isEditing ? draft : stored}
+          disabled={disabled}
+          aria-invalid={isInvalid || undefined}
+          onFocus={() => {
             setDraft(stored)
-            setIsInvalid(false)
-            setIsEditing(false)
-          }
-        }}
-      />
-      {isInvalid ? (
+            setIsEditing(true)
+          }}
+          onChange={(event) => setDraft(event.target.value)}
+          // Commit on blur and on Enter rather than per keystroke, so a
+          // partially typed time never gets written to the schedule.
+          onBlur={(event) => commit(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault()
+              event.currentTarget.blur()
+            }
+            if (event.key === 'Escape') {
+              setDraft(stored)
+              setIsInvalid(false)
+              setIsEditing(false)
+            }
+          }}
+        />
+        {/* Drawn over the masked input while idle. Hidden from assistive tech,
+            which reads the input's real value instead of this duplicate. */}
+        {!isEditing && (
+          <span className={styles.display} aria-hidden="true">
+            {formatTimeOfDay(stored, hour12)}
+          </span>
+        )}
+      </span>
+
+      {isInvalid && (
         <span className={`${styles.message} ${styles.messageError}`} role="alert">
           Enter a valid time.
         </span>
-      ) : (
-        // A native time input renders 12- or 24-hour depending on the viewer's
-        // locale. This caption states the intended reading unambiguously.
-        <span className={styles.message}>{formatTimeOfDay12h(stored)}</span>
       )}
     </div>
   )
