@@ -1,6 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import type { Plugin } from 'vite'
+// Shared with the client so both group memberships by exactly the same rule.
+import { getIdentityKey } from '../src/utils/identityUtils.ts'
 
 /**
  * Development-only write endpoint for the seed configuration file.
@@ -20,7 +22,11 @@ const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/
 const MAX_BODY_BYTES = 4 * 1024
 
 type SeedFile = {
-  items: { id: string; workSchedule?: { endLocal?: string } }[]
+  items: {
+    id: string
+    email?: string
+    workSchedule?: { endLocal?: string }
+  }[]
 }
 
 function readBody(req: import('node:http').IncomingMessage): Promise<string> {
@@ -95,7 +101,16 @@ export function seedDataApiPlugin(): Plugin {
               return
             }
 
-            member.workSchedule = { ...member.workSchedule, endLocal }
+            // One person can hold several team memberships, and they all
+            // describe the same working day, so every record sharing this
+            // identity is written together.
+            const identityKey = getIdentityKey(member)
+            const affected = data.items.filter(
+              (item) => getIdentityKey(item) === identityKey,
+            )
+            for (const item of affected) {
+              item.workSchedule = { ...item.workSchedule, endLocal }
+            }
 
             // Matches the formatting the seed generator produces, so edits do
             // not show up as whole-file reformatting in review.
@@ -103,7 +118,13 @@ export function seedDataApiPlugin(): Plugin {
 
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/json')
-            res.end(JSON.stringify({ id: memberId, endLocal }))
+            res.end(
+              JSON.stringify({
+                id: memberId,
+                endLocal,
+                updatedRecords: affected.map((item) => item.id),
+              }),
+            )
           } catch (cause) {
             server.config.logger.error(
               `[seed-data-api] Failed to update "${memberId}": ${String(cause)}`,

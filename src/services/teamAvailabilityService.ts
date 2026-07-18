@@ -4,6 +4,7 @@ import type {
   TeamMember,
 } from '../types/teamMember'
 import seedData from '../data/team-availability-seed-data.json'
+import { getIdentityKey } from '../utils/identityUtils'
 
 /**
  * Data access boundary.
@@ -13,8 +14,13 @@ import seedData from '../data/team-availability-seed-data.json'
  * file only — no component or hook changes.
  */
 
-/** Overlay of edits applied on top of the seed file. Keyed by member id. */
-const OVERRIDES_STORAGE_KEY = 'agility-insights.schedule-overrides.v1'
+/**
+ * Overlay of edits applied on top of the seed file.
+ *
+ * Keyed by identity, not by record id, so an edit made against one team
+ * membership applies to every membership the same person holds.
+ */
+const OVERRIDES_STORAGE_KEY = 'agility-insights.schedule-overrides.v2'
 
 type ScheduleOverride = { endLocal?: string }
 type OverrideMap = Record<string, ScheduleOverride>
@@ -61,7 +67,9 @@ function applyOverrides(members: TeamMember[], overrides: OverrideMap): TeamMemb
   if (Object.keys(overrides).length === 0) return members
 
   return members.map((member) => {
-    const override = overrides[member.id]
+    // Looked up by identity, so one stored edit covers every membership the
+    // person holds.
+    const override = overrides[getIdentityKey(member)]
     if (!override?.endLocal || !isValidTimeOfDay(override.endLocal)) return member
 
     return {
@@ -119,14 +127,19 @@ export class ScheduleUpdateRejectedError extends Error {
  * caller has already updated its own state, so the UI does not wait on this.
  */
 export async function updateMemberLogoutTime(
-  id: string,
+  member: TeamMember,
   endLocal: string,
 ): Promise<PersistResult> {
   if (!isValidTimeOfDay(endLocal)) {
     throw new Error(`"${endLocal}" is not a valid HH:mm time.`)
   }
 
+  const identityKey = getIdentityKey(member)
+  const id = member.id
+
   try {
+    // The record id addresses the row; the server resolves it to the person and
+    // updates every membership they hold.
     const response = await fetch(`/api/team-members/${encodeURIComponent(id)}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -137,8 +150,8 @@ export async function updateMemberLogoutTime(
       // The file is now the source of truth; drop any stale overlay entry so
       // the two cannot disagree after a refresh.
       const all = readOverrides()
-      if (all[id]) {
-        delete all[id]
+      if (all[identityKey]) {
+        delete all[identityKey]
         try {
           globalThis.localStorage?.setItem(OVERRIDES_STORAGE_KEY, JSON.stringify(all))
         } catch {
@@ -160,6 +173,6 @@ export async function updateMemberLogoutTime(
     // Network error or no such endpoint — fall through to the local overlay.
   }
 
-  writeOverride(id, { endLocal })
+  writeOverride(identityKey, { endLocal })
   return { persistedToFile: false }
 }

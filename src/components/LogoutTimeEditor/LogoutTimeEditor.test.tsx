@@ -216,8 +216,136 @@ describe('Logout Time column', () => {
     expect(logoutInput(updated)).toHaveValue('22:15')
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     expect(
-      globalThis.localStorage.getItem('agility-insights.schedule-overrides.v1'),
+      globalThis.localStorage.getItem('agility-insights.schedule-overrides.v2'),
     ).toContain('22:15')
+  })
+})
+
+describe('shared identity', () => {
+  /** All visible rows, so multi-team people can be inspected together. */
+  function allRows() {
+    const [body] = screen.getAllByRole('rowgroup').slice(1)
+    return within(body!).getAllByRole('row')
+  }
+
+  it('updates every team membership sharing the same email', async () => {
+    const user = await renderApp()
+
+    // Gopala holds three memberships, all on one address.
+    await user.type(screen.getByLabelText('Search team members'), 'Gopala')
+    let rows = allRows()
+    expect(rows).toHaveLength(3)
+    for (const row of rows) {
+      expect(logoutInput(row)).toHaveValue('23:00')
+    }
+
+    // Edit only the first one.
+    const first = logoutInput(rows[0]!)
+    await user.clear(first)
+    await user.type(first, '20:30')
+    await user.tab()
+
+    rows = allRows()
+    expect(rows).toHaveLength(3)
+    for (const row of rows) {
+      expect(logoutInput(row)).toHaveValue('20:30')
+    }
+  })
+
+  it('recalculates the derived columns on every affected row', async () => {
+    const user = await renderApp()
+    await user.type(screen.getByLabelText('Search team members'), 'Gopala')
+
+    const first = logoutInput(allRows()[0]!)
+    await user.clear(first)
+    await user.type(first, '20:00')
+    await user.tab()
+
+    // 09:00-20:00 IST is 06:30-17:30 in Riyadh, and 14:30 IST leaves 5h 30m.
+    for (const row of allRows()) {
+      expect(within(row).getByText(/9:00 AM – 8:00 PM/)).toBeInTheDocument()
+      expect(within(row).getByText(/6:30 AM – 5:30 PM/)).toBeInTheDocument()
+      expect(within(row).getByText('5h 30m')).toBeInTheDocument()
+    }
+  })
+
+  it('sends one request for the person, not one per membership', async () => {
+    const user = await renderApp()
+    await user.type(screen.getByLabelText('Search team members'), 'Gopala')
+
+    const first = logoutInput(allRows()[0]!)
+    await user.clear(first)
+    await user.type(first, '21:00')
+    await user.tab()
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('leaves a different address alone, even under the same name', async () => {
+    const user = await renderApp()
+
+    // Anuj Gupta carries two addresses: one on Warriors, one shared by
+    // Fastlane and Skynet & Cassata. They are separate identities.
+    await user.type(screen.getByLabelText('Search team members'), 'Anuj')
+    let rows = allRows()
+    expect(rows).toHaveLength(3)
+
+    // Captured rather than hardcoded: the seed values are editable, so the
+    // assertion is "these did not move", not "these equal 23:00".
+    const before = rows.map((row) => ({
+      isWarriors: within(row).queryByText('Warriors') !== null,
+      value: logoutInput(row).value,
+    }))
+    expect(before.filter((entry) => entry.isWarriors)).toHaveLength(1)
+
+    const warriorsRow = rows.find((row) => within(row).queryByText('Warriors'))!
+    const input = logoutInput(warriorsRow)
+    await user.clear(input)
+    await user.type(input, '18:00')
+    await user.tab()
+
+    rows = allRows()
+    rows.forEach((row, index) => {
+      const wasWarriors = before[index]!.isWarriors
+      expect(logoutInput(row)).toHaveValue(
+        wasWarriors ? '18:00' : before[index]!.value,
+      )
+    })
+  })
+
+  it('propagates regardless of the filter the edit was made through', async () => {
+    const user = await renderApp()
+
+    // Edit Gopala via the Fastlane filter, then check the Warriors record.
+    await user.selectOptions(screen.getByLabelText('Team'), 'Fastlane')
+    await user.type(screen.getByLabelText('Search team members'), 'Gopala')
+
+    const input = logoutInput(allRows()[0]!)
+    await user.clear(input)
+    await user.type(input, '19:45')
+    await user.tab()
+
+    await user.selectOptions(screen.getByLabelText('Team'), 'Warriors')
+    expect(logoutInput(allRows()[0]!)).toHaveValue('19:45')
+  })
+
+  it('rolls every affected row back when the save is refused', async () => {
+    fetchSpy.mockResolvedValue(
+      new Response(JSON.stringify({ error: 'nope' }), { status: 400 }),
+    )
+
+    const user = await renderApp()
+    await user.type(screen.getByLabelText('Search team members'), 'Gopala')
+
+    const first = logoutInput(allRows()[0]!)
+    await user.clear(first)
+    await user.type(first, '17:00')
+    await user.tab()
+
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+    for (const row of allRows()) {
+      expect(logoutInput(row)).toHaveValue('23:00')
+    }
   })
 })
 
@@ -227,25 +355,31 @@ describe('existing table behaviour is unaffected', () => {
 
     expect(screen.getByText(/Showing/).textContent).toMatch(/36\s*of\s*36/)
 
-    // Compared as a list because several labels are substrings of others
-    // ("Team" / "Team Member"), which makes per-header lookups ambiguous.
+    // Checked positionally rather than by name, because several labels are
+    // substrings of others ("Team" / "Team Member"). Only the label is
+    // asserted, so sort arrows, sub-labels and tooltip copy stay free to change.
     const headers = screen
       .getAllByRole('columnheader')
       .map((cell) => cell.textContent?.replace(/\s+/g, ' ').trim() ?? '')
 
-    expect(headers).toEqual([
-      'Team Member⇅',
-      'Team⇅',
-      'Location⇅',
+    const expectedLabels = [
+      'Team Member',
+      'Team',
+      'Location',
       'Local Time',
-      'Local Working Hours(Today)⇅',
-      expect.stringContaining('Logout Time'),
+      'Local Working Hours',
+      'Logout Time',
       'KSA Current Time',
       'Working Hours in KSA',
-      expect.stringContaining('Hours Left'),
-      'Status⇅',
+      'Hours Left',
+      'Status',
       'Actions',
-    ])
+    ]
+
+    expect(headers).toHaveLength(expectedLabels.length)
+    expectedLabels.forEach((label, index) => {
+      expect(headers[index]).toContain(label)
+    })
   })
 
   it('still filters and paginates around the new column', async () => {

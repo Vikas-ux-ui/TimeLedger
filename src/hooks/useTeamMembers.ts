@@ -5,6 +5,7 @@ import {
   isValidTimeOfDay,
   updateMemberLogoutTime,
 } from '../services/teamAvailabilityService'
+import { getIdentityKey } from '../utils/identityUtils'
 
 type TeamMembersState = {
   members: TeamMember[]
@@ -17,13 +18,19 @@ type TeamMembersState = {
   saveError: string | null
 }
 
-function withEndLocal(
+/**
+ * Applies an end-of-day time to every record belonging to the same person.
+ *
+ * A person on several teams has one row per team, and they all describe the
+ * same working day, so an edit against any one of them applies to all.
+ */
+function withEndLocalForIdentity(
   members: TeamMember[],
-  id: string,
+  identityKey: string,
   endLocal: string,
 ): TeamMember[] {
   return members.map((member) =>
-    member.id === id
+    getIdentityKey(member) === identityKey
       ? { ...member, workSchedule: { ...member.workSchedule, endLocal } }
       : member,
   )
@@ -90,18 +97,22 @@ export function useTeamMembers(): TeamMembersState {
         return
       }
 
-      const previous = membersRef.current.find((member) => member.id === id)
-        ?.workSchedule.endLocal
+      const target = membersRef.current.find((member) => member.id === id)
+      if (target === undefined) return
 
-      if (previous === undefined || previous === endLocal) return
+      const previous = target.workSchedule.endLocal
+      if (previous === endLocal) return
 
-      applyMembers(withEndLocal(membersRef.current, id, endLocal))
+      // Every membership this person holds moves together.
+      const identityKey = getIdentityKey(target)
+
+      applyMembers(withEndLocalForIdentity(membersRef.current, identityKey, endLocal))
       setSaveError(null)
 
       try {
-        await updateMemberLogoutTime(id, endLocal)
+        await updateMemberLogoutTime(target, endLocal)
       } catch (cause) {
-        applyMembers(withEndLocal(membersRef.current, id, previous))
+        applyMembers(withEndLocalForIdentity(membersRef.current, identityKey, previous))
         setSaveError(
           cause instanceof Error
             ? `Logout time could not be saved — ${cause.message}`
