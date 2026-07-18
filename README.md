@@ -193,6 +193,56 @@ not read from the file.
 
 ---
 
+## Availability Summary
+
+A panel between the filters and the table answers one question: **if a deployment
+started now and needed the configured minimum hours, who would still be working when
+it finished?**
+
+It shows the current KSA time, the minimum window, the expected completion instant in
+KSA, and a card per available member with their local time now, their logout time, the
+completion instant *converted into their own zone*, and how much of their day is left.
+When nobody qualifies it says so rather than showing an empty list.
+
+### How availability is decided
+
+```text
+expectedCompletion = now + productionDeploymentMinimumHours
+available          = member is on shift now  AND  shift ends at or after expectedCompletion
+```
+
+That second condition is already what the table's per-row deployment indicator
+computes, so the panel reuses it rather than deriving it a second time:
+
+```text
+hoursLeft >= minimumHours
+  <=> shiftEnd - now >= minimumHours
+  <=> shiftEnd       >= now + minimumHours
+  <=> shiftEnd       >= expectedCompletion
+```
+
+The two are the same statement, so `deploymentEligible` is the single source. Computing
+it twice would let the panel and the table disagree.
+
+Excluded, therefore: anyone whose day has already ended, anyone whose day ends before
+completion, anyone not yet started, and anyone on a non-working day.
+
+> Members whose shift has not opened yet are **not** listed, even if their day would
+> run past the completion time. The panel answers "who can I hand this to right now",
+> and someone who has not started cannot take it. This matches the per-row indicator.
+
+### What refreshes it
+
+The panel derives everything from the filtered entries, the shared clock and the
+resolved configuration, so it re-computes on its own when the Team, Role, Location,
+search or advanced filters change, when a logout time is edited, and when the clock
+ticks. It reflects **all** filtered members, not just the visible page.
+
+Changing `productionDeploymentMinimumHours` in the JSON needs a reload, because the
+configuration is resolved once at module load (see [Configuration](#configuration)).
+
+---
+
 ## Editing a logout time
 
 The **Logout Time** column is editable. It is the member's scheduled end of day in

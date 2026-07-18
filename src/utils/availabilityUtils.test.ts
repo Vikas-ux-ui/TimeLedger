@@ -24,7 +24,11 @@ describe('computeAvailability', () => {
 
   // Required test 4
   it('computes hours left during a shift', () => {
-    const result = computeAvailability(indiaMember, INSTANTS.mondayMidShiftIst)
+    // The threshold is pinned locally so the asserted status does not depend on
+    // whatever minimum the configuration file happens to carry.
+    const result = computeAvailability(indiaMember, INSTANTS.mondayMidShiftIst, {
+      minimumDeploymentHours: 4.5,
+    })
 
     // 14:30 IST to a 23:00 IST finish is 8.5 hours.
     expect(result.hoursLeft).toBeCloseTo(8.5, 5)

@@ -1,6 +1,6 @@
 import type { TeamMember } from '../types/teamMember'
 import type { MemberAvailability } from '../types/availability'
-import { computeAvailability } from '../utils/availabilityUtils'
+import { computeAvailability, type AvailabilityOptions } from '../utils/availabilityUtils'
 import { APP_SETTINGS } from '../config/settings'
 
 const MS_PER_HOUR = 3_600_000
@@ -41,8 +41,16 @@ export function makeMember(overrides: Partial<TeamMember> = {}): TeamMember {
   }
 }
 
-export function makeEntry(member: TeamMember, now: Date): MemberAvailability {
-  return { member, availability: computeAvailability(member, now) }
+/**
+ * `options` lets a test pin the deployment minimum locally, so its assertions
+ * do not shift when the configured business value changes.
+ */
+export function makeEntry(
+  member: TeamMember,
+  now: Date,
+  options?: AvailabilityOptions,
+): MemberAvailability {
+  return { member, availability: computeAvailability(member, now, options) }
 }
 
 /**

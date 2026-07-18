@@ -1,6 +1,7 @@
 import { AppHeader } from './components/AppHeader/AppHeader'
 import { ViewerLocation } from './components/ViewerLocation/ViewerLocation'
 import { SearchFilters } from './components/SearchFilters/SearchFilters'
+import { AvailabilitySummary } from './components/AvailabilitySummary/AvailabilitySummary'
 import { TeamAvailabilityTable } from './components/TeamAvailabilityTable/TeamAvailabilityTable'
 import { Pagination } from './components/Pagination/Pagination'
 import { DeploymentTimelineCard } from './components/DeploymentCards/DeploymentTimelineCard'
@@ -33,6 +34,7 @@ export function App() {
     rowsPerPage,
     setRowsPerPage,
     reset,
+    filteredEntries,
     paginatedEntries,
     filteredCount,
     totalCount,
@@ -78,6 +80,11 @@ export function App() {
           roleOptions={roleOptions}
           locationOptions={locationOptions}
         />
+
+        {/* Covers every filtered member, not just the visible page. */}
+        {!error && !isLoading && (
+          <AvailabilitySummary entries={filteredEntries} now={now} />
+        )}
 
         {error ? (
           <ErrorState onRetry={retry} detail={error} />
